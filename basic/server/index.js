@@ -31,6 +31,11 @@ class Server {
         break;
 
       default:
+        if (req.url.includes('..')) {
+          res.writeHead(403);
+          res.end();
+          return;
+        }
         const localFilePath = path.join(__dirname, 'assets', req.url === '/' ? 'index.html' : req.url);
         function shouldServe() {
           try {
